@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = MinaRevisioneer::VERSION
   spec.authors       = ["Raphael Randschau"]
   spec.email         = ["nicolai86@me.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{push deployment informations to revisioneer}
+  spec.summary       = %q{push deployment informations to revisioneer}
+  spec.homepage      = "http://blog.nicolai86.eu"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
