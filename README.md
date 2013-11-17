@@ -31,7 +31,12 @@ Now deploy away while keeping revisioneer in sync.
 
 ## Usage
 
+MinaRevisioneer uses the oneline commit message summaries from git to populate your deployment informations.
+Alongside with your current SHA these informations are passed to revisioneer.
 
+Assuming you are on Ruby on Rails you can use [revisioneer-rails][2] to display the deployment informations somewhere in your application.
+
+Note however that interfacing with revisioneer is really simple so you can always RYO.
 
 ## Contributing
 
@@ -42,3 +47,4 @@ Now deploy away while keeping revisioneer in sync.
 5. Create new Pull Request
 
 [1]:https://github.com/nadarei/mina
+[2]:https://github.com/nicolai86/revisioneer-rails
