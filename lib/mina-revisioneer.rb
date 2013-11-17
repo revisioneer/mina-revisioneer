@@ -1,0 +1,1 @@
+require 'mina_revisioneer'
