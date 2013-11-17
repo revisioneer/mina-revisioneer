@@ -12,18 +12,35 @@ require "json"
 # ### revisioneer_host
 # Sets the revisioneer host.
 
+module Mina
+  module RevisioneerHelpers
+    def last_deploy_date
+      curl = %Q{curl "#{revisioneer_host}/deployments?limit=1" -H "API-TOKEN: #{revisioneer_api_token}" -s}
+      response = %x[#{curl}].strip
+      Date.parse(JSON.parse(response).first.fetch("deployed_at"))
+    rescue
+      # no JSON received - first deploy?
+      ""
+    end
+
+    def deploy_messages
+      %x[git log --pretty=format:'%s' --abbrev-commit --since '#{last_deploy_date}'].strip.lines.map(&:strip)
+    end
+
+    def current_sha
+      %x[git rev-parse --verify HEAD].strip
+    end
+  end
+end
+
+include Mina::RevisioneerHelpers
+
 set_default :revisioneer_host, 'https://revisioneer.io'
 
 # ### revisioneer_api_token
 # Sets the api_token required by revisioneer
 
 set_default :revisioneer_api_token, ''
-
-set_default :revisioneer_sha, %x[git rev-parse --verify HEAD].strip
-
-set_default :revisioneer_last_deploy_date, JSON.parse(%x[curl "#{revisioneer_host}/deployments?limit=1" -H "API-TOKEN: #{revisioneer_api_token}"].strip || '{}')["deployed_at"]
-
-set_default :revisioneer_messages, %x[git log --pretty=format:'%s' --abbrev-commit --since '#{revisioneer_last_deploy_date}'].strip.lines
 
 # ## Deploy tasks
 # These tasks are meant to be invoked inside deploy scripts, not invoked on
@@ -36,7 +53,7 @@ namespace :revisioneer do
   task :notify do
     queue %{
       echo "-----> Notifying revisioneer"
-      #{echo_cmd %[curl -X POST "#{revisioneer_host}/deployments" -d '{ "sha": "#{revisioneer_sha}", "messages": #{JSON.dump(revisioneer_messages)} }' -H "API-TOKEN: #{revisioneer_api_token}"]}
+      #{echo_cmd %[curl -X POST "#{revisioneer_host}/deployments" -d '{ "sha": "#{revisioneer_sha}", "messages": #{JSON.dump(deploy_messages)} }' -H "API-TOKEN: #{revisioneer_api_token}"]}
     }
   end
 end

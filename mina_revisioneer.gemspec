@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'mina_revisioneer/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "mina_revisioneer"
+  spec.name          = "mina-revisioneer"
   spec.version       = MinaRevisioneer::VERSION
   spec.authors       = ["Raphael Randschau"]
   spec.email         = ["nicolai86@me.com"]
