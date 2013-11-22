@@ -21,10 +21,11 @@ set_default :revisioneer_host, 'https://revisions.deployed.eu'
 
 set_default :revisioneer_api_token, ''
 
-# ### revisioneer_inclusion
-# Sets a pattern by which git commit messages are filtered.
-# Only matching messages will be included
-set_default :revisioneer_message_generator, -> { ::MinaRevisioneer::ChangeLog.new(revisioneer_host, revisioneer_api_token) }
+# ### revisioneer_message_generator
+# Sets a class used  to extra the current sha, as well as
+# changeset messages. If you want to implement different message
+# styles, this is the place to go
+set_default :revisioneer_message_generator, -> { ::MinaRevisioneer::ChangeLog.new(revisioneer_host, revisioneer_api_token, binding) }
 
 # ## Deploy tasks
 # These tasks are meant to be invoked inside deploy scripts, not invoked on

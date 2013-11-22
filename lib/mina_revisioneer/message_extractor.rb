@@ -3,10 +3,11 @@ require "rugged"
 
 module MinaRevisioneer
   class MessageExtractor
-    attr_reader :host, :api_token
-    def initialize host, token
+    attr_reader :host, :api_token, :binding
+    def initialize host, token, binding
       @host = host
       @api_token = token
+      @binding = binding
     end
 
     def last_deploy
