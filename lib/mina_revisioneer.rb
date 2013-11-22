@@ -41,7 +41,7 @@ namespace :revisioneer do
   task :notify do
     queue %{
       echo "-----> Notifying revisioneer"
-      #{echo_cmd %[curl -X POST "#{revisioneer_host}/deployments" -d '{ "sha": "#{revisioneer_sha}", "messages": #{JSON.dump(deploy_messages)} }' -H "API-TOKEN: #{revisioneer_api_token}" -s]}
+      #{echo_cmd %[curl -X POST "#{revisioneer_host}/deployments" -d '{ "sha": "#{current_sha}", "messages": #{JSON.dump(deploy_messages)} }' -H "API-TOKEN: #{revisioneer_api_token}" -s]}
     }
   end
 end
