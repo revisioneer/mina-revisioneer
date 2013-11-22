@@ -1,12 +1,14 @@
 PATH
   remote: .
   specs:
-    mina-revisioneer (0.0.1)
+    mina-revisioneer (0.1.0)
+      rugged
 
 GEM
   remote: https://rubygems.org/
   specs:
     rake (10.1.0)
+    rugged (0.19.0)
 
 PLATFORMS
   ruby
