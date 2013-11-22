@@ -14,7 +14,7 @@ module MinaRevisioneer
       @last_deploy ||= begin
         curl = %Q{curl "#{host}/deployments?limit=1" -H "API-TOKEN: #{api_token}" -s}
         response = %x[#{curl}].strip
-        JSON.parse(response).first
+        JSON.parse(response).first || {}
       end
     rescue => err
       {} # no JSON received - propably first deploy?
@@ -25,7 +25,7 @@ module MinaRevisioneer
     end
 
     def last_deploy_sha
-      last_deploy.fetch("sha")
+      last_deploy.fetch("sha", nil)
     end
 
     def repo
