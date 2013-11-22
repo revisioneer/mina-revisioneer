@@ -24,7 +24,7 @@ set_default :revisioneer_api_token, ''
 # ### revisioneer_inclusion
 # Sets a pattern by which git commit messages are filtered.
 # Only matching messages will be included
-set_default :revisioneer_message_generator, ::MinaRevisioneer::ChangeLog.new(revisioneer_host, revisioneer_api_token)
+set_default :revisioneer_message_generator, -> { ::MinaRevisioneer::ChangeLog.new(revisioneer_host, revisioneer_api_token) }
 
 # ## Deploy tasks
 # These tasks are meant to be invoked inside deploy scripts, not invoked on
