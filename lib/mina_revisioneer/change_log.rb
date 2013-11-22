@@ -12,7 +12,7 @@ module MinaRevisioneer
       walker.push sha
       walker.hide last_deploy_sha if last_deploy_sha
       messages = walker.each.to_a.map { |commit|
-        commit.message.lines.first
+        commit.message.lines.first.strip
       }
       messages.select! { |line| line =~ revisioneer_inclusion } if revisioneer_inclusion
       messages.reject! { |line| line =~ revisioneer_exclusion } if revisioneer_exclusion

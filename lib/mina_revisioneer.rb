@@ -1,7 +1,7 @@
 require "mina_revisioneer/version"
 require "mina_revisioneer/message_extractor"
 require "mina_revisioneer/change_log"
-# require "mina_revisioneer/grouped_change_log"
+require "mina_revisioneer/grouped_change_log"
 
 # # Modules: Revisioneer
 # Adds settings and tasks for interfacing with Revisioneer
