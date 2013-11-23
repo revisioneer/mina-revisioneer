@@ -20,6 +20,13 @@ module MinaRevisioneer
       {} # no JSON received - propably first deploy?
     end
 
+    def number_of_new_commits
+      walker = Rugged::Walker.new(repo)
+      walker.push sha
+      walker.hide last_deploy_sha if last_deploy_sha
+      walker.each.to_a.count
+    end
+
     def last_deploy_date
       Time.parse(last_deploy.fetch("deployed_at"))
     end

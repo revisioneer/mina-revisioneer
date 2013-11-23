@@ -2,7 +2,6 @@ require "mina_revisioneer/version"
 require "mina_revisioneer/message_extractor"
 require "mina_revisioneer/change_log"
 require "mina_revisioneer/grouped_change_log"
-require "mina_revisioneer/notifier"
 
 # # Modules: Revisioneer
 # Adds settings and tasks for interfacing with Revisioneer
@@ -39,7 +38,8 @@ namespace :revisioneer do
   task :notify do
     payload = {
       "sha" => revisioneer_message_generator.sha,
-      "messages" => revisioneer_message_generator.messages
+      "messages" => revisioneer_message_generator.messages,
+      "new_commit_counter" => revisioneer_message_generator.number_of_new_commits
     }
     queue %{
       echo "-----> Notifying revisioneer"
