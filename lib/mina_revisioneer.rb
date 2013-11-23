@@ -2,6 +2,7 @@ require "mina_revisioneer/version"
 require "mina_revisioneer/message_extractor"
 require "mina_revisioneer/change_log"
 require "mina_revisioneer/grouped_change_log"
+require "mina_revisioneer/notifier"
 
 # # Modules: Revisioneer
 # Adds settings and tasks for interfacing with Revisioneer
@@ -42,7 +43,7 @@ namespace :revisioneer do
     }
     queue %{
       echo "-----> Notifying revisioneer"
-      #{echo_cmd %[curl -X POST "#{revisioneer_host}/deployments" -d '#{JSON.dump(payload)}' -H "API-TOKEN: #{revisioneer_api_token}" -s]}
+      #{echo_cmd %[curl  -X POST "#{revisioneer_host}/deployments" -d '#{JSON.dump(payload)}' -H "API-TOKEN: #{revisioneer_api_token}" -H "Content-Type: application/json" -s]}
     }
   end
 end
