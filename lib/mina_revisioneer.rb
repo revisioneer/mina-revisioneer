@@ -27,6 +27,10 @@ set_default :revisioneer_api_token, ''
 # styles, this is the place to go
 set_default :revisioneer_message_generator, -> { ::MinaRevisioneer::ChangeLog.new(revisioneer_host, revisioneer_api_token, binding) }
 
+# ### revisioneer_log_messages
+# Specify wether we want to send along log messages or not.
+set_default :revisioneer_log_messages, true
+
 # ## Deploy tasks
 # These tasks are meant to be invoked inside deploy scripts, not invoked on
 # their own.
@@ -38,7 +42,7 @@ namespace :revisioneer do
   task :notify do
     payload = {
       "sha" => revisioneer_message_generator.sha,
-      "messages" => revisioneer_message_generator.messages,
+      "messages" => (revisioneer_log_messages ? revisioneer_message_generator.messages : []),
       "new_commit_counter" => revisioneer_message_generator.number_of_new_commits
     }
     queue %{
