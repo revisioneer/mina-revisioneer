@@ -31,6 +31,10 @@ set_default :revisioneer_message_generator, -> { ::MinaRevisioneer::ChangeLog.ne
 # Specify wether we want to send along log messages or not.
 set_default :revisioneer_log_messages, true
 
+# ### revisioneer_commits_ahead
+# Specify wether we want to send the number of new commits along
+set_default :revisioneer_commits_ahead, true
+
 # ## Deploy tasks
 # These tasks are meant to be invoked inside deploy scripts, not invoked on
 # their own.
@@ -43,8 +47,12 @@ namespace :revisioneer do
     payload = {
       "sha" => revisioneer_message_generator.sha,
       "messages" => (revisioneer_log_messages ? revisioneer_message_generator.messages : []),
-      "new_commit_counter" => revisioneer_message_generator.number_of_new_commits
     }
+
+    if revisioneer_commits_ahead
+      payload["new_commit_counter"] = revisioneer_message_generator.number_of_new_commits
+    end
+
     queue %{
       echo "-----> Notifying revisioneer"
       #{echo_cmd %[curl  -X POST "#{revisioneer_host}/deployments" -d '#{JSON.dump(payload)}' -H "API-TOKEN: #{revisioneer_api_token}" -H "Content-Type: application/json" -s]}
